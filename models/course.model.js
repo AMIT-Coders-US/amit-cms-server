@@ -15,6 +15,8 @@ const courseSchema = new mongoose.Schema({
   nextCohort: { type: Date, required: true },
   applicationDeadline: { type: Date, required: true },
   overviewTitle: { type: String, required: true },
+  overviewDescription: { type: String, required: true },
+
   card1Title: { type: String, required: true },
   card1Description: { type: String, required: true },
   card2Title: { type: String, required: true },
