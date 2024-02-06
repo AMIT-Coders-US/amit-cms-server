@@ -23,7 +23,7 @@ import scholarshipRoutes from "./routes/scholarshipRoutes.js";
 import stepsRoutes from "./routes/stepsToApplyRoutes.js";
 
 dotenv.config();
-const PORT = 5001;
+// const PORT = 5001;
 
 const DEFAULT_ADMIN = {
   email: "admin@amit.com",
@@ -118,7 +118,7 @@ const start = async () => {
   // const adminRouter = AdminJSExpress.buildRouter(admin, authRouter);
   app.use(admin.options.rootPath, adminRouter);
 
-  app.listen(PORT, () => {
+  app.listen(process.env.PORT || "3000", () => {
     console.log(
       `AdminJS started on http://localhost:${PORT}${admin.options.rootPath}`
     );
