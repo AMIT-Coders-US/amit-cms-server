@@ -82,40 +82,40 @@ const start = async () => {
         resource: StepsToApply,
       },
     ],
-    auth: {
-      authenticate: async (email, password) => {
-        // Add your authentication logic here, for example:
-        if (email === "admin@example.com" && password === "password") {
-          return { email }; // Returning the user object
-        } else {
-          return null; // Authentication failed
-        }
-      },
-    },
+    // auth: {
+    //   authenticate: async (email, password) => {
+    //     // Add your authentication logic here, for example:
+    //     if (email === "admin@example.com" && password === "password") {
+    //       return { email }; // Returning the user object
+    //     } else {
+    //       return null; // Authentication failed
+    //     }
+    //   },
+    // },
   });
 
-  const adminRouter = AdminJSExpress.buildAuthenticatedRouter(
-    admin,
-    {
-      authenticate,
-      cookieName: "adminjs",
-      cookiePassword: "sessionsecret",
-    },
-    null,
-    {
-      // store: mongooseDb,
-      resave: true,
-      saveUninitialized: true,
-      secret: "sessionsecret",
-      cookie: {
-        httpOnly: process.env.NODE_ENV === "production",
-        secure: process.env.NODE_ENV === "production",
-      },
-      name: "adminjs",
-    }
-  );
+  // const adminRouter = AdminJSExpress.buildAuthenticatedRouter(
+  //   admin,
+  //   {
+  //     authenticate,
+  //     cookieName: "adminjs",
+  //     cookiePassword: "sessionsecret",
+  //   },
+  //   null,
+  //   {
+  //     // store: mongooseDb,
+  //     resave: true,
+  //     saveUninitialized: true,
+  //     secret: "sessionsecret",
+  //     cookie: {
+  //       httpOnly: process.env.NODE_ENV === "production",
+  //       secure: process.env.NODE_ENV === "production",
+  //     },
+  //     name: "adminjs",
+  //   }
+  // );
 
-  // const adminRouter = AdminJSExpress.buildRouter(admin, authRouter);
+  const adminRouter = AdminJSExpress.buildRouter(admin);
   app.use(admin.options.rootPath, adminRouter);
 
   app.listen(process.env.PORT || "3000", () => {
