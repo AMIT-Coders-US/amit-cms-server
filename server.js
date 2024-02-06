@@ -120,7 +120,7 @@ const start = async () => {
 
   app.listen(process.env.PORT || "3000", () => {
     console.log(
-      `AdminJS started on http://localhost:${PORT}${admin.options.rootPath}`
+      `AdminJS started on http://localhost:${process.env.PORT}${admin.options.rootPath}`
     );
   });
 };
