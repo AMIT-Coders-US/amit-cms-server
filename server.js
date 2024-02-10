@@ -15,12 +15,16 @@ import Project from "./models/project.model.js";
 import Review from "./models/review.model.js";
 import Scholarship from "./models/scholarship.model.js";
 import StepsToApply from "./models/stepsToApply.model.js";
+import FAQ from "./models/faq.model.js";
 
 import courseRoutes from "./routes/courseRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
 import scholarshipRoutes from "./routes/scholarshipRoutes.js";
 import stepsRoutes from "./routes/stepsToApplyRoutes.js";
+import faqRoutes from "./routes/faqRoutes.js";
+import Link from "./models/link.model.js";
+import linkRoutes from "./routes/linkRoutes.js";
 
 dotenv.config();
 // const PORT = 5001;
@@ -59,6 +63,8 @@ const start = async () => {
   app.use("/api/review", reviewRoutes);
   app.use("/api/scholarship", scholarshipRoutes);
   app.use("/api/steps", stepsRoutes);
+  app.use("/api/faqs", faqRoutes);
+  app.use("/api/links", linkRoutes);
 
   const mongooseDb = await mongoose.connect(process.env.DATABASE_URL);
 
@@ -80,6 +86,8 @@ const start = async () => {
         resource: Review,
         resource: Scholarship,
         resource: StepsToApply,
+        resource: FAQ,
+        resource: Link,
       },
     ],
     // auth: {
