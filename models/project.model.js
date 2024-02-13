@@ -5,6 +5,7 @@ const projectSchema = new mongoose.Schema({
   personImage: { type: String, required: true },
   projectName: { type: String, required: true },
   projectDescription: { type: String, required: true },
+  projectLink: { type: String, required: false },
 });
 
 const Project = mongoose.model("Project", projectSchema);
