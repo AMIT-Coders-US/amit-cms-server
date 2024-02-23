@@ -16,6 +16,7 @@ import Review from "./models/review.model.js";
 import Scholarship from "./models/scholarship.model.js";
 import StepsToApply from "./models/stepsToApply.model.js";
 import FAQ from "./models/faq.model.js";
+import NextCohort from "./models/nextcohort.model.js";
 
 import courseRoutes from "./routes/courseRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js";
@@ -25,6 +26,7 @@ import stepsRoutes from "./routes/stepsToApplyRoutes.js";
 import faqRoutes from "./routes/faqRoutes.js";
 import Link from "./models/link.model.js";
 import linkRoutes from "./routes/linkRoutes.js";
+import cohortRoutes from "./routes/cohortRoutes.js";
 
 dotenv.config();
 // const PORT = 5001;
@@ -65,6 +67,7 @@ const start = async () => {
   app.use("/api/steps", stepsRoutes);
   app.use("/api/faqs", faqRoutes);
   app.use("/api/links", linkRoutes);
+  app.use("/api/cohort", cohortRoutes);
 
   const mongooseDb = await mongoose.connect(process.env.DATABASE_URL);
 
@@ -88,6 +91,7 @@ const start = async () => {
         resource: StepsToApply,
         resource: FAQ,
         resource: Link,
+        resource: NextCohort,
       },
     ],
     // auth: {
