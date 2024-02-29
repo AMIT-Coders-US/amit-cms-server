@@ -26,6 +26,10 @@ const courseSchema = new mongoose.Schema({
   hardwareReqs: { type: [String] },
   softwareReqs: { type: [String] },
   preReqs: { type: [String] },
+  curriculumPdfLink: {
+    type: String,
+    required: false,
+  },
   curriculum: {
     type: [
       {
