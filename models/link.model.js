@@ -7,6 +7,7 @@ const linkSchema = new mongoose.Schema({
   linkedIn: { type: String, required: false },
   tiktok: { type: String, required: false },
   microsoftBooking: { type: String, required: false },
+  youtube: { type: String, required: false },
 });
 
 const Link = mongoose.model("Link", linkSchema);
