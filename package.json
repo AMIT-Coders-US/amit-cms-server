@@ -17,6 +17,7 @@
     "@adminjs/themes": "^1.0.1",
     "adminjs": "^7.7.2",
     "axios": "^1.6.7",
+    "connect-mongo": "^5.1.0",
     "connect-pg-simple": "^9.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.1",

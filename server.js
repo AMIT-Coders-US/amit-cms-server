@@ -10,6 +10,9 @@ import { dark, light, noSidebar } from "@adminjs/themes";
 import Connect from "connect-pg-simple";
 import dotenv from "dotenv";
 
+import session from "express-session";
+import MongoStore from "connect-mongo";
+
 import Course from "./models/course.model.js";
 import Project from "./models/project.model.js";
 import Review from "./models/review.model.js";
@@ -58,7 +61,28 @@ const start = async () => {
 
   app.use("/Assets", express.static("./custom-adminjs.css"));
 
-  app.use(cors());
+  app.use(
+    cors({
+      origin: process.env.CORS_ORIGIN || "*", // Set your frontend's origin in production
+      credentials: true,
+    })
+  );
+
+  // Session middleware initialization
+  app.use(
+    session({
+      store: MongoStore.create({ mongoUrl: process.env.DATABASE_URL }),
+      resave: false,
+      saveUninitialized: true,
+      secret: "sessionsecret",
+      cookie: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+      },
+      name: "adminjs",
+    })
+  );
 
   app.use("/api/project", projectRoutes);
   app.use("/api/course", courseRoutes);
@@ -69,6 +93,7 @@ const start = async () => {
   app.use("/api/links", linkRoutes);
   app.use("/api/cohort", cohortRoutes);
 
+  // Database connection
   const mongooseDb = await mongoose.connect(process.env.DATABASE_URL);
 
   const admin = new AdminJS({
@@ -80,6 +105,7 @@ const start = async () => {
       softwareBrothers: false, // Remove the "powered by SoftwareBrothers" link
     },
     defaultTheme: dark.id,
+    saveUninitialized: true,
     availableThemes: [dark, light, noSidebar],
     databases: [mongooseDb],
     resources: [
@@ -101,28 +127,11 @@ const start = async () => {
     },
   });
 
-  const adminRouter = AdminJSExpress.buildAuthenticatedRouter(
-    admin,
-    {
-      authenticate,
-      cookieName: "adminjs",
-      cookiePassword: "sessionsecret",
-    },
-    null,
-    {
-      // store: mongoDb,
-      resave: true,
-      saveUninitialized: true,
-      secret: "sessionsecret",
-      cookie: {
-        httpOnly: process.env.NODE_ENV === "production",
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "None", // Or 'Lax'
-        secure: true,
-      },
-      name: "adminjs",
-    }
-  );
+  const adminRouter = AdminJSExpress.buildAuthenticatedRouter(admin, {
+    authenticate,
+    cookieName: "adminjs",
+    cookiePassword: "sessionsecret",
+  });
 
   // const adminRouter = AdminJSExpress.buildRouter(admin);
   app.use(admin.options.rootPath, adminRouter);
