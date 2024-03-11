@@ -95,14 +95,9 @@ const start = async () => {
       },
     ],
     auth: {
-      authenticate: async (email, password) => {
-        // Add your authentication logic here, for example:
-        if (email === "admin@example.com" && password === "password") {
-          return { email }; // Returning the user object
-        } else {
-          return null; // Authentication failed
-        }
-      },
+      authenticate,
+      cookieName: "adminjs",
+      cookiePassword: "sessionsecret",
     },
   });
 
@@ -115,13 +110,15 @@ const start = async () => {
     },
     null,
     {
-      // store: mongooseDb,
+      // store: mongoDb,
       resave: true,
       saveUninitialized: true,
       secret: "sessionsecret",
       cookie: {
         httpOnly: process.env.NODE_ENV === "production",
         secure: process.env.NODE_ENV === "production",
+        sameSite: "None", // Or 'Lax'
+        secure: true,
       },
       name: "adminjs",
     }
@@ -129,6 +126,13 @@ const start = async () => {
 
   // const adminRouter = AdminJSExpress.buildRouter(admin);
   app.use(admin.options.rootPath, adminRouter);
+
+  app.use(
+    cors({
+      origin: "*",
+      credentials: true,
+    })
+  );
 
   app.listen(process.env.PORT || "3000", () => {
     console.log(
