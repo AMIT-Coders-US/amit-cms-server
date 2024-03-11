@@ -106,28 +106,28 @@ const start = async () => {
     },
   });
 
-  const adminRouter = AdminJSExpress.buildAuthenticatedRouter(
-    admin,
-    {
-      authenticate,
-      cookieName: "adminjs",
-      cookiePassword: "sessionsecret",
-    },
-    null,
-    {
-      // store: mongooseDb,
-      resave: true,
-      saveUninitialized: true,
-      secret: "sessionsecret",
-      cookie: {
-        httpOnly: process.env.NODE_ENV === "production",
-        secure: process.env.NODE_ENV === "production",
-      },
-      name: "adminjs",
-    }
-  );
+  // const adminRouter = AdminJSExpress.buildAuthenticatedRouter(
+  //   admin,
+  //   {
+  //     authenticate,
+  //     cookieName: "adminjs",
+  //     cookiePassword: "sessionsecret",
+  //   },
+  //   null,
+  //   {
+  //     // store: mongooseDb,
+  //     resave: true,
+  //     saveUninitialized: true,
+  //     secret: "sessionsecret",
+  //     cookie: {
+  //       httpOnly: process.env.NODE_ENV === "production",
+  //       secure: process.env.NODE_ENV === "production",
+  //     },
+  //     name: "adminjs",
+  //   }
+  // );
 
-  // const adminRouter = AdminJSExpress.buildRouter(admin);
+  const adminRouter = AdminJSExpress.buildRouter(admin);
   app.use(admin.options.rootPath, adminRouter);
 
   app.listen(process.env.PORT || "3000", () => {
