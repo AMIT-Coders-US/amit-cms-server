@@ -77,12 +77,15 @@ const start = async () => {
       secret: "sessionsecret",
       cookie: {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+        secure: process.env.NODE_ENV === "production", // Set to true in production
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Consider 'None' for cross-origin requests
+        maxAge: 24 * 60 * 60 * 1000, // Example: Set cookie expiry to 24 hours
       },
       name: "adminjs",
     })
   );
+
+  app.set("trust proxy", 1);
 
   app.use("/api/project", projectRoutes);
   app.use("/api/course", courseRoutes);
