@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const courseSchema = new mongoose.Schema({
+  freeCourseLink: { type: String },
   id: { type: String, required: true },
   category: { type: String, required: true },
   isFree: { type: Boolean },
